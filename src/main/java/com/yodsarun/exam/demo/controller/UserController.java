@@ -7,6 +7,7 @@ import com.yodsarun.exam.demo.model.data.UsersModel;
 import com.yodsarun.exam.demo.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +36,7 @@ public class UserController {
         return usersService.inquiryUserById(userId);
     }
 
-    @PostMapping(value = {PathConstant.USER_BY_ID_ENDPOINT})
+    @PostMapping(value = {PathConstant.USER_ENDPOINT})
     public ResponseEntity<RespnseModel<Void>> createUser(
             @RequestBody UsersModel usersModel
     ) {
@@ -50,7 +51,7 @@ public class UserController {
         return usersService.updateUser(userId, usersModel);
     }
 
-    @PutMapping(value = {PathConstant.USER_BY_ID_ENDPOINT})
+    @DeleteMapping(value = {PathConstant.USER_BY_ID_ENDPOINT})
     public ResponseEntity<RespnseModel<Void>> deleteUserById(
             @PathVariable String userId
     ) {
