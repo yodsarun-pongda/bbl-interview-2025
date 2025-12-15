@@ -38,13 +38,12 @@ public class MockupUserData {
 
             List<UsersModel> body = response.getBody();
             if (body == null) {
-                log.error("not found data");
+                log.error("not found data with {} records", userDataList.size());
             } else {
                 userDataList.clear();
                 userDataList.addAll(body);
+                log.info("Data initialized");
             }
-
-
         } catch (RestClientException e) {
             log.error("Error while getting data", e);
         }

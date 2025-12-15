@@ -38,6 +38,8 @@ public class UsersService {
                     .orElseThrow(() -> new BusinessException(StatusCodeEnum.NOT_FOUND_404));
             log.info("Found Matched userId: {}", userId);
             return ResponseEntity.ok().body(new ResponseModel<UsersModel>().setData(matchedUser));
+        } catch (BusinessException ex) {
+            throw ex;
         } catch (Exception ex) {
             throw new BusinessException(StatusCodeEnum.INTERNAL_SERVER_ERROR_500, ex);
         }
@@ -70,6 +72,8 @@ public class UsersService {
             // Calling repository.save()
 
             return ResponseEntity.ok().body(new ResponseModel<>());
+        }  catch (BusinessException ex) {
+            throw ex;
         } catch (Exception e) {
             log.error("Error while update user: {}", userId, e);
             throw e;
@@ -85,6 +89,8 @@ public class UsersService {
             } else {
                 throw new BusinessException(StatusCodeEnum.INTERNAL_SERVER_ERROR_500);
             }
+        }  catch (BusinessException ex) {
+            throw ex;
         } catch (Exception e) {
             log.error("Error while update user: {}", userId, e);
             throw e;

@@ -6,6 +6,7 @@ import lombok.Getter;
 public class BusinessException extends RuntimeException {
     @Getter
     private String code;
+    @Getter
     private String message;
 
     public BusinessException(StatusCodeEnum statusCodeEnum, Throwable throwable) {
@@ -18,4 +19,6 @@ public class BusinessException extends RuntimeException {
         this.code = statusCodeEnum.getCode();
         this.message = statusCodeEnum.getDescription();
     }
+
+
 }

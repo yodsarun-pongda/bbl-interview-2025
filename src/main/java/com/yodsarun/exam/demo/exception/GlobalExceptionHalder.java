@@ -2,6 +2,7 @@ package com.yodsarun.exam.demo.exception;
 
 import com.yodsarun.exam.demo.constant.StatusCodeEnum;
 import com.yodsarun.exam.demo.model.common.ResponseModel;
+import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,6 +28,8 @@ public class GlobalExceptionHalder {
             httpStauts = HttpStatus.NOT_FOUND;
         }
 
-        return ((ResponseEntity.BodyBuilder) ResponseEntity.status(httpStauts)).body(new ResponseModel<String>().setData(ex.getMessage()));
+        var response = new ResponseModel<String>();
+        response.setData(ex.getMessage());
+        return ((ResponseEntity.BodyBuilder) ResponseEntity.status(httpStauts)).body(response);
     }
 }
