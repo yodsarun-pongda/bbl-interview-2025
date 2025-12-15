@@ -1,18 +1,21 @@
 package com.yodsarun.exam.demo.model.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RespnseModel<T>{
+public class ResponseModel<T>{
     private T data;
 
-    public RespnseModel() {}
+    public ResponseModel() {}
 
-    public RespnseModel(T data) {
+    public ResponseModel<T> RespnseModel(T data) {
         this.data = data;
+        return this;
     }
 
-    public RespnseModel<T> setData(T data) {
+    public ResponseModel<T> setData(T data) {
         this.data = data;
         return this;
     }

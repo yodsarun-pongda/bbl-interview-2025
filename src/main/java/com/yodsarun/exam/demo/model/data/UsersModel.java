@@ -1,10 +1,7 @@
 package com.yodsarun.exam.demo.model.data;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
 @RequiredArgsConstructor
 public class UsersModel {
     private Long id;

@@ -2,7 +2,7 @@ package com.yodsarun.exam.demo.controller;
 
 import com.yodsarun.exam.demo.constant.CommonConstant;
 import com.yodsarun.exam.demo.constant.PathConstant;
-import com.yodsarun.exam.demo.model.common.RespnseModel;
+import com.yodsarun.exam.demo.model.common.ResponseModel;
 import com.yodsarun.exam.demo.model.data.UsersModel;
 import com.yodsarun.exam.demo.service.UsersService;
 import lombok.RequiredArgsConstructor;
@@ -25,26 +25,27 @@ public class UserController {
     private final UsersService usersService;
 
     @GetMapping(value = {PathConstant.USER_ENDPOINT})
-    public ResponseEntity<RespnseModel<List<UsersModel>>> inquiryUser() {
+    public ResponseEntity<ResponseModel<List<UsersModel>>> inquiryUser() {
+        System.out.println("hello world");
         return usersService.getAllUsers();
     }
 
     @GetMapping(value = {PathConstant.USER_BY_ID_ENDPOINT})
-    public ResponseEntity<RespnseModel<UsersModel>> inquiryUserById(
+    public ResponseEntity<ResponseModel<UsersModel>> inquiryUserById(
         @PathVariable String userId
     ) {
         return usersService.inquiryUserById(userId);
     }
 
     @PostMapping(value = {PathConstant.USER_ENDPOINT})
-    public ResponseEntity<RespnseModel<Void>> createUser(
+    public ResponseEntity<ResponseModel<Void>> createUser(
             @RequestBody UsersModel usersModel
     ) {
         return usersService.createUser(usersModel);
     }
 
     @PutMapping(value = {PathConstant.USER_BY_ID_ENDPOINT})
-    public ResponseEntity<RespnseModel<Void>> updateUser(
+    public ResponseEntity<ResponseModel<Void>> updateUser(
             @PathVariable String userId,
             @RequestBody UsersModel usersModel
     ) {
@@ -52,7 +53,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = {PathConstant.USER_BY_ID_ENDPOINT})
-    public ResponseEntity<RespnseModel<Void>> deleteUserById(
+    public ResponseEntity<ResponseModel<Void>> deleteUserById(
             @PathVariable String userId
     ) {
         return usersService.deleteUser(userId);

@@ -51,10 +51,16 @@ public class MockupUserData {
     }
 
     public List<UsersModel> getUserDataList() {
-        return this.userDataList;
+        if (userDataList.isEmpty()) {
+            init();
+        }
+        return userDataList;
     }
 
     public UsersModel getUserById(String userId) {
+        if (userDataList.isEmpty()) {
+            init();
+        }
         return userDataList
                 .stream()
                 .filter(user ->

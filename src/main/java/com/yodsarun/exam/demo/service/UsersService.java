@@ -4,10 +4,11 @@ import com.yodsarun.exam.demo.constant.PathConstant;
 import com.yodsarun.exam.demo.constant.StatusCodeEnum;
 import com.yodsarun.exam.demo.exception.BusinessException;
 import com.yodsarun.exam.demo.mockdata.MockupUserData;
-import com.yodsarun.exam.demo.model.common.RespnseModel;
+import com.yodsarun.exam.demo.model.common.ResponseModel;
 import com.yodsarun.exam.demo.model.data.UsersModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,13 @@ import java.util.List;
 public class UsersService {
     private final MockupUserData mockupUserData;
 
-    public ResponseEntity<RespnseModel<List<UsersModel>>> getAllUsers() {
-        return ResponseEntity.ok().body(new RespnseModel<>(mockupUserData.getUserDataList()));
+    public ResponseEntity<ResponseModel<List<UsersModel>>> getAllUsers() {
+        var users = mockupUserData.getUserDataList();
+        var response = new ResponseModel<List<UsersModel>>().setData(users);
+        return ResponseEntity.ok().body(response);
     }
 
-    public ResponseEntity<RespnseModel<UsersModel>> inquiryUserById(String userId) {
+    public ResponseEntity<ResponseModel<UsersModel>> inquiryUserById(String userId) {
         try {
             var matchedUser = mockupUserData.getUserDataList()
                     .stream()
@@ -34,13 +37,13 @@ public class UsersService {
                     .findFirst()
                     .orElseThrow(() -> new BusinessException(StatusCodeEnum.NOT_FOUND_404));
             log.info("Found Matched userId: {}", userId);
-            return ResponseEntity.ok().body(new RespnseModel<>(matchedUser));
+            return ResponseEntity.ok().body(new ResponseModel<UsersModel>().setData(matchedUser));
         } catch (Exception ex) {
             throw new BusinessException(StatusCodeEnum.INTERNAL_SERVER_ERROR_500, ex);
         }
     }
 
-    public ResponseEntity<RespnseModel<Void>> createUser(UsersModel usersModel) {
+    public ResponseEntity<ResponseModel<Void>> createUser(UsersModel usersModel) {
         var userId = usersModel.getId().toString();
         URI location = URI.create(PathConstant.USER_BY_ID_ENDPOINT.replace("{userId}", userId));
 
@@ -52,10 +55,10 @@ public class UsersService {
         mockupUserData.getUserDataList().add(usersModel);
         log.info("User: {} have been created", userId);
 
-        return ResponseEntity.created(location).body(new RespnseModel<>());
+        return ResponseEntity.created(location).body(new ResponseModel<>());
     }
 
-    public ResponseEntity<RespnseModel<Void>> updateUser(String userId, UsersModel usersModelRequest) {
+    public ResponseEntity<ResponseModel<Void>> updateUser(String userId, UsersModel usersModelRequest) {
         try {
             var matchedUser = mockupUserData.getUserById(userId);
             matchedUser.setName(usersModelRequest.getName());
@@ -66,19 +69,19 @@ public class UsersService {
 
             // Calling repository.save()
 
-            return ResponseEntity.ok().body(new RespnseModel<>());
+            return ResponseEntity.ok().body(new ResponseModel<>());
         } catch (Exception e) {
             log.error("Error while update user: {}", userId, e);
             throw e;
         }
     }
 
-    public ResponseEntity<RespnseModel<Void>> deleteUser(String userId) {
+    public ResponseEntity<ResponseModel<Void>> deleteUser(String userId) {
         try {
             var matchedUser = mockupUserData.getUserById(userId);
             var isSuccess = mockupUserData.deleteUser(matchedUser);
             if (isSuccess) {
-                return ResponseEntity.ok().body(new RespnseModel<>());
+                return ResponseEntity.ok().body(new ResponseModel<>());
             } else {
                 throw new BusinessException(StatusCodeEnum.INTERNAL_SERVER_ERROR_500);
             }
